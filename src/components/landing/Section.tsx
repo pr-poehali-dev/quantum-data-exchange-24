@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react"
+import { useState } from "react"
 import { motion } from "framer-motion"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -8,30 +8,6 @@ import ConstitutionModal from "./ConstitutionModal"
 const API_URL = "https://functions.poehali.dev/7335c1d2-721f-438b-86b4-2f9d774ead55"
 const FLAG_URL = "https://cdn.poehali.dev/projects/2bd2ccfc-cbb7-444b-87bb-b257151af53d/files/7d867abf-aa57-4403-9eff-4568d0cc4acb.jpg"
 
-function CitizenCounter({ isActive }: { isActive: boolean }) {
-  const [count, setCount] = useState<number | null>(null)
-
-  useEffect(() => {
-    fetch(API_URL)
-      .then(r => r.json())
-      .then(data => setCount(data.count))
-      .catch(() => {})
-  }, [])
-
-  if (count === null) return null
-
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={isActive ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 0.5, delay: 0.5 }}
-      className="mt-8 inline-flex items-center gap-3 bg-purple-900/40 border border-purple-500/30 rounded-full px-6 py-3"
-    >
-      <span className="text-2xl font-bold text-white">{count.toLocaleString('ru-RU')}</span>
-      <span className="text-neutral-400 text-sm">граждан в республике</span>
-    </motion.div>
-  )
-}
 
 function CitizenshipForm({ isActive }: { isActive: boolean }) {
   const [name, setName] = useState("")
@@ -191,8 +167,6 @@ export default function Section({ id, title, subtitle, content, isActive, showBu
               {content}
             </motion.p>
           )}
-
-          {showFlag && <CitizenCounter isActive={isActive} />}
 
           {showHymn && <HymnText isActive={isActive} />}
 
