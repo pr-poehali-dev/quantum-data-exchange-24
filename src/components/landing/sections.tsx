@@ -5,6 +5,7 @@ export const sections = [
     id: 'hero',
     subtitle: <Badge variant="outline" className="text-white border-white">Виртуальное государство</Badge>,
     title: "Квартирная\nРоссийская\nРеспублика",
+    content: "Страна основанная дома",
     showFlag: true,
   },
   {
