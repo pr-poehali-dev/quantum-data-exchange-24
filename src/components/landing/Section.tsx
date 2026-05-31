@@ -65,7 +65,48 @@ function CitizenshipForm({ isActive }: { isActive: boolean }) {
   )
 }
 
-export default function Section({ id, title, subtitle, content, isActive, showButton, buttonText, showFlag, showCitizenship, showConstitution }: SectionProps) {
+const HYMN_LINES = [
+  "Славься, Славься Квартирная Российская Республика,",
+  "ты наша, великая страна.",
+  "И сияет солнце над тобой,",
+  "и судьба твоя светла.",
+  "",
+  "Над старинным Сальниковградским подоконником",
+  "вьётся знамя с жёлтым солнцем.",
+  "И звучат священные слова —",
+  "Славься, Квартирная Российская Республика!",
+]
+
+function HymnText({ isActive }: { isActive: boolean }) {
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 30 }}
+      animate={isActive ? { opacity: 1, y: 0 } : {}}
+      transition={{ duration: 0.6, delay: 0.2 }}
+      className="mt-8 max-w-2xl"
+    >
+      <div className="border border-purple-500/30 rounded-xl bg-purple-900/20 p-6 md:p-8">
+        {HYMN_LINES.map((line, i) =>
+          line === "" ? (
+            <div key={i} className="h-4" />
+          ) : (
+            <motion.p
+              key={i}
+              className="text-lg md:text-xl text-neutral-200 leading-relaxed italic"
+              initial={{ opacity: 0, x: -20 }}
+              animate={isActive ? { opacity: 1, x: 0 } : {}}
+              transition={{ duration: 0.4, delay: 0.3 + i * 0.07 }}
+            >
+              {line}
+            </motion.p>
+          )
+        )}
+      </div>
+    </motion.div>
+  )
+}
+
+export default function Section({ id, title, subtitle, content, isActive, showButton, buttonText, showFlag, showCitizenship, showConstitution, showHymn }: SectionProps) {
   return (
     <section id={id} className="relative h-screen w-full snap-start flex flex-col justify-center p-8 md:p-16 lg:p-24">
       {subtitle && (
@@ -100,6 +141,8 @@ export default function Section({ id, title, subtitle, content, isActive, showBu
               {content}
             </motion.p>
           )}
+
+          {showHymn && <HymnText isActive={isActive} />}
 
           {showCitizenship && <CitizenshipForm isActive={isActive} />}
 

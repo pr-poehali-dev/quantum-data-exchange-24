@@ -10,6 +10,7 @@ export interface Section {
   showFlag?: boolean
   showCitizenship?: boolean
   showConstitution?: boolean
+  showHymn?: boolean
 }
 
 export interface SectionProps extends Section {

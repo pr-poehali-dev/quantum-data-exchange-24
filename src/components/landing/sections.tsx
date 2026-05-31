@@ -14,6 +14,11 @@ export const sections = [
     showConstitution: true,
   },
   {
+    id: 'hymn',
+    title: 'Гимн республики',
+    showHymn: true,
+  },
+  {
     id: 'citizenship',
     title: 'Получи гражданство',
     content: 'Стань частью великой Квартирной Российской Республики. Введи своё имя — и ты навсегда войдёшь в историю нашего государства.',
