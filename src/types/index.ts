@@ -7,6 +7,8 @@ export interface Section {
   content?: string
   showButton?: boolean
   buttonText?: string
+  showFlag?: boolean
+  showCitizenship?: boolean
 }
 
 export interface SectionProps extends Section {
