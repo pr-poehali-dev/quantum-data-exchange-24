@@ -6,6 +6,7 @@ import type { SectionProps } from "@/types"
 import ConstitutionModal from "./ConstitutionModal"
 
 const FLAG_URL = "https://cdn.poehali.dev/projects/2bd2ccfc-cbb7-444b-87bb-b257151af53d/files/7d867abf-aa57-4403-9eff-4568d0cc4acb.jpg"
+const FLAG_NEW_URL = "https://cdn.poehali.dev/projects/2bd2ccfc-cbb7-444b-87bb-b257151af53d/files/df11c6bb-8f81-4521-860b-64a14648300e.jpg"
 
 function CitizenshipForm({ isActive }: { isActive: boolean }) {
   const [name, setName] = useState("")
@@ -141,6 +142,21 @@ export default function Section({ id, title, subtitle, content, isActive, showBu
             >
               {content}
             </motion.p>
+          )}
+
+          {showFlag && (
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              animate={isActive ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.7, delay: 0.4 }}
+              className="mt-8"
+            >
+              <img
+                src={FLAG_NEW_URL}
+                alt="Флаг Квартирной Российской Республики"
+                className="w-48 h-32 md:w-64 md:h-44 object-cover rounded-lg shadow-2xl border border-white/20"
+              />
+            </motion.div>
           )}
 
           {showHymn && <HymnText isActive={isActive} />}
