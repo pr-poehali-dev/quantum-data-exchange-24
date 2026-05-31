@@ -1,21 +1,64 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { motion } from "framer-motion"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import type { SectionProps } from "@/types"
 import ConstitutionModal from "./ConstitutionModal"
 
+const API_URL = "https://functions.poehali.dev/7335c1d2-721f-438b-86b4-2f9d774ead55"
 const FLAG_URL = "https://cdn.poehali.dev/projects/2bd2ccfc-cbb7-444b-87bb-b257151af53d/files/7d867abf-aa57-4403-9eff-4568d0cc4acb.jpg"
+
+function CitizenCounter({ isActive }: { isActive: boolean }) {
+  const [count, setCount] = useState<number | null>(null)
+
+  useEffect(() => {
+    fetch(API_URL)
+      .then(r => r.json())
+      .then(data => setCount(data.count))
+      .catch(() => {})
+  }, [])
+
+  if (count === null) return null
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={isActive ? { opacity: 1, y: 0 } : {}}
+      transition={{ duration: 0.5, delay: 0.5 }}
+      className="mt-8 inline-flex items-center gap-3 bg-purple-900/40 border border-purple-500/30 rounded-full px-6 py-3"
+    >
+      <span className="text-2xl font-bold text-white">{count.toLocaleString('ru-RU')}</span>
+      <span className="text-neutral-400 text-sm">граждан в республике</span>
+    </motion.div>
+  )
+}
 
 function CitizenshipForm({ isActive }: { isActive: boolean }) {
   const [name, setName] = useState("")
   const [submitted, setSubmitted] = useState(false)
   const [citizenName, setCitizenName] = useState("")
+  const [count, setCount] = useState<number | null>(null)
+  const [loading, setLoading] = useState(false)
 
-  const handleSubmit = () => {
-    if (name.trim()) {
-      setCitizenName(name.trim())
+  const handleSubmit = async () => {
+    const trimmed = name.trim()
+    if (!trimmed) return
+    setLoading(true)
+    try {
+      const res = await fetch(API_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name: trimmed }),
+      })
+      const data = await res.json()
+      setCitizenName(trimmed)
+      setCount(data.count)
       setSubmitted(true)
+    } catch {
+      setCitizenName(trimmed)
+      setSubmitted(true)
+    } finally {
+      setLoading(false)
     }
   }
 
@@ -34,12 +77,14 @@ function CitizenshipForm({ isActive }: { isActive: boolean }) {
             onChange={(e) => setName(e.target.value)}
             onKeyDown={(e) => e.key === "Enter" && handleSubmit()}
             className="bg-white/10 border-white/30 text-white placeholder:text-white/50 focus:border-white"
+            disabled={loading}
           />
           <Button
             onClick={handleSubmit}
+            disabled={loading}
             className="bg-purple-600 hover:bg-purple-500 text-white border-0 whitespace-nowrap"
           >
-            Вступить
+            {loading ? "..." : "Вступить"}
           </Button>
         </div>
       ) : (
@@ -53,6 +98,11 @@ function CitizenshipForm({ isActive }: { isActive: boolean }) {
           <p className="text-neutral-300">
             Гражданин <span className="text-white font-semibold">{citizenName}</span> — вы теперь полноправный гражданин Квартирной Российской Республики!
           </p>
+          {count !== null && (
+            <p className="mt-3 text-purple-300 text-sm">
+              Вы стали гражданином №{count.toLocaleString('ru-RU')} 🏛️
+            </p>
+          )}
           <button
             className="mt-4 text-sm text-purple-400 underline hover:text-purple-300"
             onClick={() => { setSubmitted(false); setName("") }}
@@ -141,6 +191,8 @@ export default function Section({ id, title, subtitle, content, isActive, showBu
               {content}
             </motion.p>
           )}
+
+          {showFlag && <CitizenCounter isActive={isActive} />}
 
           {showHymn && <HymnText isActive={isActive} />}
 

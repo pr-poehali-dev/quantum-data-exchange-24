@@ -1,0 +1,5 @@
+CREATE TABLE citizens (
+  id SERIAL PRIMARY KEY,
+  name TEXT NOT NULL,
+  registered_at TIMESTAMP DEFAULT NOW()
+);
