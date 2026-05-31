@@ -9,6 +9,7 @@ export interface Section {
   buttonText?: string
   showFlag?: boolean
   showCitizenship?: boolean
+  showConstitution?: boolean
 }
 
 export interface SectionProps extends Section {
