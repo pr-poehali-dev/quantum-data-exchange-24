@@ -3,7 +3,7 @@ import { motion } from "framer-motion"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import type { SectionProps } from "@/types"
-import ConstitutionModal from "./ConstitutionModal"
+import ConstitutionSection from "./ConstitutionSection"
 
 const CITIZENS_URL = "https://functions.poehali.dev/7335c1d2-721f-438b-86b4-2f9d774ead55"
 
@@ -252,15 +252,7 @@ export default function Section({ id, title, subtitle, content, isActive, showBu
 
           {showCitizenship && <CitizenshipForm isActive={isActive} />}
 
-          {showConstitution && (
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={isActive ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.5, delay: 0.4 }}
-            >
-              <ConstitutionModal />
-            </motion.div>
-          )}
+          {showConstitution && <ConstitutionSection isActive={isActive} />}
 
           {showButton && (
             <motion.div
