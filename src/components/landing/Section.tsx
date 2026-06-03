@@ -1,9 +1,35 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { motion } from "framer-motion"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import type { SectionProps } from "@/types"
 import ConstitutionModal from "./ConstitutionModal"
+
+const CITIZENS_URL = "https://functions.poehali.dev/7335c1d2-721f-438b-86b4-2f9d774ead55"
+
+function CitizensCounter({ isActive }: { isActive: boolean }) {
+  const [count, setCount] = useState<number | null>(null)
+
+  useEffect(() => {
+    fetch(CITIZENS_URL)
+      .then(r => r.json())
+      .then(d => setCount(d.count))
+  }, [])
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={isActive ? { opacity: 1, y: 0 } : {}}
+      transition={{ duration: 0.5, delay: 0.6 }}
+      className="mt-6 flex items-center gap-3"
+    >
+      <span className="text-neutral-400 text-sm uppercase tracking-widest">Граждан</span>
+      <span className="text-white text-2xl font-bold">
+        {count === null ? "..." : count}
+      </span>
+    </motion.div>
+  )
+}
 
 const FLAG_URL = "https://cdn.poehali.dev/projects/2bd2ccfc-cbb7-444b-87bb-b257151af53d/files/7d867abf-aa57-4403-9eff-4568d0cc4acb.jpg"
 const FLAG_NEW_URL = "https://cdn.poehali.dev/projects/2bd2ccfc-cbb7-444b-87bb-b257151af53d/files/df11c6bb-8f81-4521-860b-64a14648300e.jpg"
@@ -156,6 +182,7 @@ export default function Section({ id, title, subtitle, content, isActive, showBu
                 alt="Флаг Квартирной Российской Республики"
                 className="w-48 h-32 md:w-64 md:h-44 object-cover rounded-lg shadow-2xl border border-white/20"
               />
+              <CitizensCounter isActive={isActive} />
             </motion.div>
           )}
 
