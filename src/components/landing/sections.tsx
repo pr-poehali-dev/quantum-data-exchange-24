@@ -15,6 +15,12 @@ export const sections = [
     showConstitution: true,
   },
   {
+    id: 'territory',
+    title: 'Территория',
+    content: 'Официальная карта Квартирной Российской Республики.',
+    showMap: true,
+  },
+  {
     id: 'hymn',
     title: 'Гимн республики',
     showHymn: true,

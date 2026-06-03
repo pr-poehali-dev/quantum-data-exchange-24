@@ -134,7 +134,9 @@ function HymnText({ isActive }: { isActive: boolean }) {
   )
 }
 
-export default function Section({ id, title, subtitle, content, isActive, showButton, buttonText, showFlag, showCitizenship, showConstitution, showHymn }: SectionProps) {
+const MAP_URL = "https://cdn.poehali.dev/projects/2bd2ccfc-cbb7-444b-87bb-b257151af53d/bucket/83da35ee-08e7-4225-9657-a52528dc814d.jpg"
+
+export default function Section({ id, title, subtitle, content, isActive, showButton, buttonText, showFlag, showCitizenship, showConstitution, showHymn, showMap }: SectionProps) {
   return (
     <section id={id} className="relative h-screen w-full snap-start flex flex-col justify-center p-8 md:p-16 lg:p-24">
       {subtitle && (
@@ -183,6 +185,21 @@ export default function Section({ id, title, subtitle, content, isActive, showBu
                 className="w-48 h-32 md:w-64 md:h-44 object-cover rounded-lg shadow-2xl border border-white/20"
               />
               <CitizensCounter isActive={isActive} />
+            </motion.div>
+          )}
+
+          {showMap && (
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              animate={isActive ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.7, delay: 0.3 }}
+              className="mt-8"
+            >
+              <img
+                src={MAP_URL}
+                alt="Карта Квартирной Российской Республики"
+                className="max-w-xs md:max-w-sm lg:max-w-md rounded-xl shadow-2xl border border-white/10"
+              />
             </motion.div>
           )}
 
