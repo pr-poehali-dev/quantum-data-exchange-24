@@ -12,6 +12,7 @@ export interface Section {
   showConstitution?: boolean
   showHymn?: boolean
   showMap?: boolean
+  showCitizensList?: boolean
 }
 
 export interface SectionProps extends Section {

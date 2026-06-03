@@ -135,8 +135,49 @@ function HymnText({ isActive }: { isActive: boolean }) {
 }
 
 const MAP_URL = "https://cdn.poehali.dev/projects/2bd2ccfc-cbb7-444b-87bb-b257151af53d/bucket/83da35ee-08e7-4225-9657-a52528dc814d.jpg"
+const CITIZENS_API = "https://functions.poehali.dev/7335c1d2-721f-438b-86b4-2f9d774ead55"
 
-export default function Section({ id, title, subtitle, content, isActive, showButton, buttonText, showFlag, showCitizenship, showConstitution, showHymn, showMap }: SectionProps) {
+function CitizensList({ isActive }: { isActive: boolean }) {
+  const [citizens, setCitizens] = useState<{ id: number; name: string; registered_at: string | null }[]>([])
+
+  useEffect(() => {
+    if (isActive) {
+      fetch(CITIZENS_API)
+        .then(r => r.json())
+        .then(d => setCitizens(d.citizens || []))
+    }
+  }, [isActive])
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 30 }}
+      animate={isActive ? { opacity: 1, y: 0 } : {}}
+      transition={{ duration: 0.5, delay: 0.2 }}
+      className="mt-8 max-w-lg w-full"
+    >
+      {citizens.length === 0 ? (
+        <p className="text-neutral-400">Пока нет граждан.</p>
+      ) : (
+        <ul className="space-y-3">
+          {citizens.map((c, i) => (
+            <motion.li
+              key={c.id}
+              initial={{ opacity: 0, x: -20 }}
+              animate={isActive ? { opacity: 1, x: 0 } : {}}
+              transition={{ duration: 0.3, delay: 0.2 + i * 0.05 }}
+              className="flex items-center gap-4 border border-white/10 rounded-xl px-5 py-3 bg-white/5"
+            >
+              <span className="text-purple-400 font-bold text-sm w-6 text-right">#{i + 1}</span>
+              <span className="text-white text-lg">{c.name}</span>
+            </motion.li>
+          ))}
+        </ul>
+      )}
+    </motion.div>
+  )
+}
+
+export default function Section({ id, title, subtitle, content, isActive, showButton, buttonText, showFlag, showCitizenship, showConstitution, showHymn, showMap, showCitizensList }: SectionProps) {
   return (
     <section id={id} className="relative h-screen w-full snap-start flex flex-col justify-center p-8 md:p-16 lg:p-24">
       {subtitle && (
@@ -202,6 +243,8 @@ export default function Section({ id, title, subtitle, content, isActive, showBu
               />
             </motion.div>
           )}
+
+          {showCitizensList && <CitizensList isActive={isActive} />}
 
           {showHymn && <HymnText isActive={isActive} />}
 

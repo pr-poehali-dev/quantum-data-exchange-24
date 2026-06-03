@@ -19,12 +19,15 @@ def handler(event: dict, context) -> dict:
     if event.get('httpMethod') == 'GET':
         cur.execute('SELECT COUNT(*) FROM citizens')
         count = cur.fetchone()[0]
+        cur.execute('SELECT id, name, registered_at FROM citizens ORDER BY registered_at ASC')
+        rows = cur.fetchall()
+        citizens = [{'id': r[0], 'name': r[1], 'registered_at': r[2].isoformat() if r[2] else None} for r in rows]
         cur.close()
         conn.close()
         return {
             'statusCode': 200,
             'headers': cors_headers,
-            'body': json.dumps({'count': count})
+            'body': json.dumps({'count': count, 'citizens': citizens})
         }
 
     if event.get('httpMethod') == 'POST':

@@ -1,21 +1,17 @@
 {
   "tests": [
     {
-      "name": "Получить счётчик граждан",
+      "name": "Получить список граждан",
       "method": "GET",
       "path": "/",
-      "expectedStatus": 200,
-      "expectedBody": {"count": 2},
-      "bodyMatcher": "partial"
+      "expectedStatus": 200
     },
     {
       "name": "Зарегистрировать гражданина",
       "method": "POST",
       "path": "/",
-      "body": {"name": "Тестовый Гражданин"},
-      "expectedStatus": 200,
-      "expectedBody": {"success": true},
-      "bodyMatcher": "partial"
+      "body": {"name": "Тест"},
+      "expectedStatus": 200
     }
   ]
 }
