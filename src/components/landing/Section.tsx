@@ -203,14 +203,16 @@ export default function Section({ id, title, subtitle, content, isActive, showBu
           </motion.h2>
 
           {content && (
-            <motion.p
-              className="text-lg md:text-xl lg:text-2xl max-w-2xl mt-6 text-neutral-400"
+            <motion.div
+              className="text-lg md:text-xl lg:text-2xl max-w-2xl mt-6 text-neutral-400 space-y-4"
               initial={{ opacity: 0, y: 50 }}
               animate={isActive ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.5, delay: 0.2 }}
             >
-              {content}
-            </motion.p>
+              {content.split('\n\n').map((para, i) => (
+                <p key={i}>{para}</p>
+              ))}
+            </motion.div>
           )}
 
           {showFlag && (
