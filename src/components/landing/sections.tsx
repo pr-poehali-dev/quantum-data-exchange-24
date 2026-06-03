@@ -29,15 +29,4 @@ export const sections = [
     title: 'Гимн республики',
     showHymn: true,
   },
-  {
-    id: 'citizenship',
-    title: 'Получи гражданство',
-    content: 'Стань частью великой Квартирной Российской Республики. Введи своё имя — и ты навсегда войдёшь в историю нашего государства.',
-    showCitizenship: true,
-  },
-  {
-    id: 'citizens-list',
-    title: 'Граждане республики',
-    showCitizensList: true,
-  },
 ]
